@@ -1,0 +1,2 @@
+svn: E170013: Unable to connect to a repository at URL 'https://https/github.com/mietoria/labSVN'
+svn: E731001: Этот хост неизвестен.  
