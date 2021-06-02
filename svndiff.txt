@@ -1,2 +1,45 @@
-svn: E170013: Unable to connect to a repository at URL 'https://https/github.com/mietoria/labSVN'
-svn: E731001: Этот хост неизвестен.  
+Index: trunk/.idea/vcs.xml
+===================================================================
+--- trunk/.idea/vcs.xml	(revision 4)
++++ trunk/.idea/vcs.xml	(revision 7)
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file
+
+Property changes on: trunk/.idea/vcs.xml
+___________________________________________________________________
+Index: trunk/build.properties
+===================================================================
+--- trunk/build.properties	(revision 4)
++++ trunk/build.properties	(revision 7)
+@@ -9,4 +9,4 @@
+ 
+ sounds.success=sounds/success.wav
+ sounds.fail=sounds/fail.wav
+-svn.repository=https://https://github.com/mietoria/labSVN
++svn.repository=https://github.com/mietoria/ognp_laba_3ver3000
+
+Property changes on: trunk/build.properties
+___________________________________________________________________
+Index: trunk/src/HelloWorld.java
+===================================================================
+--- trunk/src/HelloWorld.java	(revision 4)
++++ trunk/src/HelloWorld.java	(revision 7)
+@@ -4,7 +4,7 @@
+     ResourceBundle messages = ResourceBundle.getBundle("messages");
+ 
+     public static void main(String[] args) {
+-        HelloWorld hello = new HelloWorld();
++        HelloWorld h34ello = new HelloWorld();
+         System.out.println(hello.sayHello());
+     }
+     String sayHello() {
+
+Property changes on: trunk/src/HelloWorld.java
+___________________________________________________________________

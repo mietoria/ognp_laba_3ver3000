@@ -89,8 +89,16 @@
         <antcall target="build"/>
     </target>
 
-    <target name="history" depends="build">
+    <target name="history">
         <!-- find out current revision number, need svn.exe installed on local machine -->
+        <trycatch>
+            <try>
+                <runtarget target="build"></runtarget>
+            </try>
+            <catch>
+                <echo>Build failed</echo>
+            </catch>
+        </trycatch>
         <exec executable="svn" output="svnlog.out">
             <arg line="info --show-item last-changed-revision --no-newline"/>
         </exec>
