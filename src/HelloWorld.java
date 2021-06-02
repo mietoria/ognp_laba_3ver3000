@@ -4,7 +4,7 @@ public class HelloWorld {
     ResourceBundle messages = ResourceBundle.getBundle("messages");
 
     public static void main(String[] args) {
-        HelloWorld he123llo = new HelloWorld();
+        HelloWorld he54llo = new HelloWorld();
         System.out.println(hello.sayHello());
     }
     String sayHello() {
