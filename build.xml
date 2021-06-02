@@ -9,9 +9,9 @@
     </taskdef>
 
     <path id="junit.class.path">
-        <pathelement location="${build.dir}/classes" />
-        <pathelement location = "lib/junit-4.0.jar" />
-        <pathelement location = "lib/testng-7.1.0.jar" />
+        <pathelement location="${build.dir}/classes"/>
+        <pathelement location="lib/junit-4.0.jar"/>
+        <pathelement location="lib/testng-7.1.0.jar"/>
     </path>
 
     <!-- define all targets -->
@@ -24,8 +24,8 @@
     </target>
 
     <target name="mkdir">
-        <mkdir dir="${build.dir}/classes" />
-        <mkdir dir="${build.dir}/jar" />
+        <mkdir dir="${build.dir}/classes"/>
+        <mkdir dir="${build.dir}/jar"/>
     </target>
 
     <target name="native2ascii" depends="clean, mkdir">
@@ -38,7 +38,7 @@
     <!-- Compiles the java code (including the usage of library for JUnit -->
     <target name="compile" depends="native2ascii">
         <javac srcdir="${src.dir}" destdir="${build.dir}/classes" verbose="true">
-            <classpath refid="junit.class.path" />
+            <classpath refid="junit.class.path"/>
         </javac>
 
     </target>
@@ -64,7 +64,7 @@
 
     <target name="run" depends="build">
         <java classname="${class.main}" classpath="${build.dir}/classes"/>
-<!--        <java jar="${build.dir}/jar/${class.main}.jar" fork="true"/>-->
+        <!--        <java jar="${build.dir}/jar/${class.main}.jar" fork="true"/>-->
     </target>
 
     <target name="music" depends="build">
@@ -91,45 +91,43 @@
 
     <target name="history">
         <!-- find out current revision number, need svn.exe installed on local machine -->
-        <trycatch>
-            <try>
-                <runtarget target="build"></runtarget>
-            </try>
-            <catch>
-                <echo>Build failed</echo>
-            </catch>
-        </trycatch>
         <exec executable="svn" output="svnlog.out">
             <arg line="info --show-item last-changed-revision --no-newline"/>
         </exec>
         <var name="svn.revision" unset="true"/>
         <loadfile property="svn.revision" srcfile="svnlog.out"/>
         <math result="svn.revision" operand1="${svn.revision}" operand2="0" operation="-" datatype="int"/>
-<!--        <echo>${svn.revision}</echo>-->
         <if>
             <equals arg1="${svn.revision}" arg2="0"/>
             <then>
-                <fail message="Impossible to build"/>
             </then>
             <else>
                 <math result="svn.revision" operand1="${svn.revision}" operand2="1" operation="-" datatype="int"/>
             </else>
         </if>
-<!--        <echo>${svn.revision}</echo>-->
-        <if>
-            <equals arg1="${build.success}" arg2="false"/>
-            <then>
-                <exec executable="svn">
-                    <arg line="up -r${svn.revision}"/>
-                </exec>
-                <runtarget target="history"/>
-            </then>
-            <else>
+        <echo>${svn.revision}</echo>
+        <trycatch>
+            <try>
+                <runtarget target="build"></runtarget>
                 <math result="svn.revision" operand1="${svn.revision}" operand2="1" operation="+" datatype="int"/>
                 <exec executable="svn" output="svndiff.txt">
                     <arg line="diff -r${svn.revision} ${svn.repository}"/>
                 </exec>
-            </else>
-        </if>
+            </try>
+            <catch>
+                <echo>Build failed</echo>
+                <if>
+                    <equals arg1="${svn.revision}" arg2="-1"/>
+                    <then>
+                        <fail>Impossible to build</fail>
+                    </then>
+                </if>
+                <exec executable="svn">
+                    <arg line="up -r${svn.revision}"/>
+                </exec>
+                <sleep seconds="10"/>
+                <runtarget target="history"/>
+            </catch>
+        </trycatch>
     </target>
 </project>
